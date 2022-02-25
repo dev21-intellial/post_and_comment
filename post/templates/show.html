@@ -1,0 +1,24 @@
+
+<!DOCTYPE html>
+<html>
+<head>
+    {% if user.is_authenticated %}
+    <titile><h3 >Welcome {{request.user.username}}</h3></titile>
+    {% endif %}
+    <hr>
+    <link rel="stylesheet" href="https://maxdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+</head>
+<body>
+    <div class="container">
+        <form method="POST" action="/compose">
+        {% csrf_token%}
+
+        <div class="row">
+        <h3><b>Feed</b></h3>
+        <h3> <input type="submit" name="Compose" value="Compose" class="btn btn-primary"></h3>
+        <hr>
+        </div>
+        </form>  
+    </div>
+</body>
+</html>   

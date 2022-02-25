@@ -1,0 +1,46 @@
+
+<!DOCTYPE html>
+<html>
+<head>
+    <titile><h1>Registration page</h1></titile>
+    <link rel="stylesheet" href="https://maxdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+</head>
+<body>
+    <div class="container">
+        <form method="POST" action="/add_user">
+            {% csrf_token %}
+
+            <div class="modal-body">
+                <lable for="fname">username</lable>
+                <input type="text" id="fname" name="fname"></input> 
+
+            </div>
+
+            <div class="modal-body">
+                <lable for="lname">lastname</lable>
+                <input type="text" id="lname" name="lname"></input> 
+
+            </div>
+
+            
+            <div class="modal-body">
+                <lable for="email">email</lable>
+                <input type="text" id="email" name="email"> </input> 
+
+            </div>
+
+            <div class="modal-body">
+                <lable for="pass1">pass1</lable>
+                <input type="password" id="pass1" name="pass1"> </input> 
+
+            </div>
+            
+
+
+            </br>
+            <input type="submit" name="submit" value="submit" class="btn btn-primary">
+            </br>
+    </form>
+
+</body>
+</html>   

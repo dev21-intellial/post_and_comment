@@ -1,0 +1,30 @@
+
+<!DOCTYPE html>
+<html>
+<head>
+   
+    <title>These are the Posts</title>
+    
+    
+    
+    <link rel="stylesheet" href="https://maxdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+</head>
+<body>
+    <h3>These are the User posts</h3> <hr> <hr>
+    <div class="container">
+        
+
+            {% for user_post in all_posts %}
+            {{user_post.user.username}}  
+            {{user_post.last_update}}<br>
+            {{user_post.desciption}}<br>
+            <a href="/delete/{{user_post.user.id}}" class="btn btn-danger btn-sm">delete</a>
+           
+            <hr>
+            {% endfor %}
+           
+        
+
+
+</body>
+</html>   
