@@ -1,3 +1,4 @@
+from tkinter import CASCADE
 from django.db import models
 
 # Create your models here.
@@ -16,4 +17,5 @@ class Post(models.Model):
 
 
 class Comment(models.Model):
+    user_comment=models.ForeignKey(Post,on_delete=models.CASCADE)
     comment_given=models.TextField()

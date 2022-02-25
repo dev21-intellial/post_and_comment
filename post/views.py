@@ -58,19 +58,26 @@ def Added_post(request):
         description=request.POST['txtArea']
         data_store=Post(user_id=vsr,desciption=description)
         data_store.save()
-        all_posts=Post.objects.all().order_by('-id')
-        return render(request,'added_post.html',{'all_posts':all_posts})
+        
+        return redirect('/Added_post')
     else:
-       return HttpResponse("Try Again:")
-       
+        all_posts=Post.objects.all().order_by('-id')
+        return render(request,"Added_post.html",{'all_posts':all_posts})
 
+       
 def back(request):
     return redirect('/compose')
 
 
-def delete(request,id):
-    user_delete=Post.objects.get(id=id)
-    print(user_delete)
+def post_delete(request,id):
+    user_delete=Post.objects.filter(id=id)
+    
     user_delete.delete()
     return redirect('/Added_post')
+
+
+def pass_comment(request,id):
+    user_comments=Post.objects.all(id=id)
+    return redirect(request,'Added_post.html',{'user_comments':user_comments})
+
 

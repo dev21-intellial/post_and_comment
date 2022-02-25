@@ -10,7 +10,8 @@ urlpatterns = [
    path('show',views.show,name='show'),
    path('compose',views.compose,name='compose'),
    path('Added_post',views.Added_post,name='Added_post'),
-   path('delete/<int:id>',views.delete,name='delete')
+   path('delete/<int:id>',views.post_delete,name='delete'),
+   path('pass_comment/<int:id>',views.pass_comment,name='pass_comment')
 
 ]
 
