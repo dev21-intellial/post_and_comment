@@ -3,7 +3,9 @@ from xml.etree.ElementTree import Comment
 from django.http import HttpResponse
 from django.shortcuts import redirect, render,HttpResponse
 from django.contrib.auth.models import User
-from .models import Post ,Comments
+
+
+from .models import Post ,Comments, Like
 from django.contrib import auth
 
 # Create your views here.
@@ -24,11 +26,11 @@ def authenticate_user(request):
 
 
 def login(request):
-    return render(request,'login.html')
+    return render(request,'post/login.html')
 
 
 def registration(request):
-    return render(request,'registration.html')
+    return render(request,'post/registration.html')
 
 
 def add_user(request):
@@ -43,15 +45,13 @@ def add_user(request):
         return HttpResponse("404-not found page")
 
     
-
 def show(request):
         users=User.objects.all()
-        return render(request,'show.html',{'users':users})
+        return render(request,'post/show.html',{'users':users})
     
 
-
 def compose(request):
-    return render(request,'compose.html')
+    return render(request,'post/compose.html')
 
 def Added_post(request):    
     if request.method=="POST":
@@ -59,41 +59,42 @@ def Added_post(request):
         description=request.POST['txtArea']
         data_store=Post(user_id=vsr,description=description)
         data_store.save()
-        
         return redirect('/Added_post')
     else:
         all_posts=Post.objects.all().order_by('-id')
-        return render(request,"Added_post.html",{'all_posts':all_posts})
-        
-
        
+        return render(request,"post/Added_post.html",{'all_posts':all_posts})
+           
 def back(request):
     return redirect('/compose')
-
 
 def post_delete(request,id):
     user_delete=Post.objects.filter(id=id)
     user_delete.delete()
-    
     return redirect('/Added_post')
 
 
-def pass_comment(request):
-    return render(request,'pass_comment.html')
-
-def to_save_comment(request):
+def pass_comment(request,id):
     if request.method=='POST':
-        user_id=request.user.id
-        print(user_id)
+        return redirect('/pass_comment')
+    else:
+        return render(request,'post/pass_comment.html',{'post_id':id})
+
+
+def given_comment(request):
+    if request.method=='POST':
+        post_id=request.POST.get('post_id')
+        print(post_id)
         comment_given=request.POST['comment_txtArea']
         print(comment_given)
-        
-        data_store=Comments(post__User_id=user_id,desciption=comment_given)
-        print(data_store)
+       
+        data_store=Comments(post_id=post_id,comment=comment_given)
         data_store.save()
-        return HttpResponse("your data stored in database successfully")
+        return redirect('/comments')
     else:
-        return HttpResponse("your comment data saved")
+        return render(request,'Added.html')
 
-
+def comments(request):
+    comments=Comments.objects.all()
+    return render(request,'post/comments.html',{'comments':comments})
 

@@ -9,18 +9,20 @@ from datetime import datetime
 
 class Post(models.Model):
     user=models.ForeignKey(User,on_delete=models.CASCADE)
-    last_update=models.DateTimeField(auto_now_add=True,blank=True)
+    last_update=models.DateTimeField(auto_now_add=True,null=True)
     description=models.TextField()
 
 
 class Comments(models.Model):
     post=models.ForeignKey(Post,on_delete=models.CASCADE)
-    comment_given=models.TextField()
+    comment=models.TextField()
 
 
-class likes(models.Model):
+class Like(models.Model):
     user=models.ForeignKey(User,on_delete=models.CASCADE)
-    comment=models.ForeignKey(Comments,on_delete=models.CASCADE)
+    post_like=models.ForeignKey(Post,on_delete=models.CASCADE)
+
+
 
 
 

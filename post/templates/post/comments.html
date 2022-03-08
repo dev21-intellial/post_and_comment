@@ -1,0 +1,30 @@
+
+<!DOCTYPE html>
+<html>
+<head>
+   
+    <title>These are the Posts</title>
+    
+    
+    
+    <link rel="stylesheet" href="https://maxdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+</head>
+
+<body>
+
+    <div class="container">
+        <form method="POST" action="">
+            {% csrf_token %}
+        
+            {% for comments in comments %}
+            <tr>
+                <td>{{comments.post_id}}</td>
+                <td>{{comments.comment}}</td><br>
+             {% endfor %}
+            </tr>
+        </form>
+
+    </div>
+
+</body>
+</html>   

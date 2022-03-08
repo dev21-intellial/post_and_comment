@@ -11,8 +11,8 @@ urlpatterns = [
    path('compose',views.compose,name='compose'),
    path('Added_post',views.Added_post,name='Added_post'),
    path('delete/<int:id>',views.post_delete,name='delete'),
-   path('pass_comment',views.pass_comment,name='pass_comment'),
-   path('to_save_comment',views.to_save_comment,name='to_save_comment')
-
+   path('pass_comment/<int:id>',views.pass_comment,name='pass_comment'),
+   path('given_comment',views.given_comment,name='to_save_comment'),
+   path('comments',views.comments,name='comments')
 ]
 
