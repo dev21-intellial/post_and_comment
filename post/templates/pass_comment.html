@@ -1,0 +1,27 @@
+
+<!DOCTYPE html>
+<html>
+<head>
+    <titile><h3>please pass your comment</h3></titile>
+    <link rel="stylesheet" href="https://maxdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+</head>
+<body>
+    <div class="container">
+        <form method="POST" action="/to_save_comment">
+            {% csrf_token %}
+                
+            <div class="row">
+                <div class="column">
+                <lable for="txtArea">comment</lable>
+                <textarea id="txtArea" name="comment_txtArea" rows="10" cols="70"></textarea>
+            
+            </div>
+
+
+            </br>
+            <input type="submit" name="submit" value="submit" class="btn btn-primary">
+            </br>
+    </form>
+
+</body>
+</html>   

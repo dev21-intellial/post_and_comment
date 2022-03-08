@@ -13,31 +13,35 @@
 <body>
 
     <div class="container">
+        <form method="POST" action="/pass_comment">
+            {% csrf_token %}
         
             
 
-    <h3>These are the User posts</h3> <hr> <hr>
-    <div class="container">
+            <h3>These are the User posts</h3> <hr> <hr>
+            <div class="container">
         
 
             {% for user_post in all_posts %}
-            {{user_post.user.username}}  
-            {{user_post.last_update}}<br>
-            {{user_post.desciption}}<br>
+            <td name="user_post_id">{{user_post.user.username}}</td>  
+            <td name="user_post.last_update">{{user_post.last_update}}<br></td>
+            <td>{{user_post.description}}<br></td>
             
             {% if user.is_authenticated %}
 
             <div style="text-align:right;">
                 <a href="/delete/{{user_post.id}}" >delete</a>
             </div>
+
             
-            {% endif %}
 
             <input type="submit" name="submit" value="comment" class="btn btn-primary">
+
             <hr>
+            {% endif %}
             {% endfor %}
-         
-        
+        </form>
+
     </div>
 
 </body>
