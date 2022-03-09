@@ -5,7 +5,7 @@
    
     <title>These are the Posts</title>
     
-    
+   
     
     <link rel="stylesheet" href="https://maxdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
 </head>
@@ -23,7 +23,8 @@
         
 
             {% for user_post in all_posts %}
-            <td name="user_post_id">{{user_post.user.username}}</td> 
+            {{user_post.user__username}}
+            
             <td name="user_post.last_update">{{user_post.last_update}}<br></td>
             <td>{{user_post.description}}<br></td>
             
@@ -37,15 +38,36 @@
              -->
 
              <a href="/pass_comment/{{user_post.id}}">comment</a>
+             
+             
+             
            
 
-            <a href="/Like/{{user_post.id}}" >Like</a>
             
-            
-
-            <hr>
+            <a href="/likes/{{user_post.id}}">Like</a>
+            <br>
             {% endif %}
+            
+             {% for comment in comments %}
+
+             {% if user_post.id == comment.post_id %}
+             
+             {{comment.user__username}}
+
+             {{comment.comment}}
+
+             {% endif%}
+            
+             {% endfor %}
+             
+            
+        
+            
+            <hr>
+            
+            
             {% endfor %}
+
         </form>
 
     </div>

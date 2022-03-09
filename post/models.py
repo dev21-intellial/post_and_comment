@@ -14,13 +14,14 @@ class Post(models.Model):
 
 
 class Comments(models.Model):
+    user=models.ForeignKey(User,on_delete=models.CASCADE)
     post=models.ForeignKey(Post,on_delete=models.CASCADE)
     comment=models.TextField()
 
 
 class Like(models.Model):
     user=models.ForeignKey(User,on_delete=models.CASCADE)
-    post_like=models.ForeignKey(Post,on_delete=models.CASCADE)
+    post=models.ForeignKey(Post,on_delete=models.CASCADE)
 
 
 

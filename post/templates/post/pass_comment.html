@@ -7,7 +7,7 @@
 </head>
 <body>
     <div class="container">
-        <form method="POST" action="/given_comment">
+        <form method="POST" action="/given_comment/{{post_id}}">
             {% csrf_token %}
                 
             <div class="row">
@@ -21,6 +21,7 @@
 
             </br>
             <input type="submit" name="submit" value="submit" class="btn btn-primary">
+
             </br>
     </form>
 
