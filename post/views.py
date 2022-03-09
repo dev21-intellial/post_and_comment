@@ -46,7 +46,7 @@ def add_user(request):
 
     
 def show(request):
-        users=User.objects.all()
+        users=User.objects.values('id','username','email')
         return render(request,'post/show.html',{'users':users})
     
 
@@ -61,7 +61,7 @@ def Added_post(request):
         data_store.save()
         return redirect('/Added_post')
     else:
-        all_posts=Post.objects.all().order_by('-id')
+        all_posts=Post.objects.values('id','user','last_update','description').order_by('-id')
        
         return render(request,"post/Added_post.html",{'all_posts':all_posts})
            
@@ -95,6 +95,6 @@ def given_comment(request):
         return render(request,'Added.html')
 
 def comments(request):
-    comments=Comments.objects.all()
+    comments=Comments.objects.values('comment')
     return render(request,'post/comments.html',{'comments':comments})
 
