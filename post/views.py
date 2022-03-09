@@ -24,15 +24,11 @@ def authenticate_user(request):
     else:
         return HttpResponse("your password is incorrect")
 
-
-
 def login(request):
     return render(request,'post/login.html')
 
-
 def registration(request):
     return render(request,'post/registration.html')
-
 
 def add_user(request):
     if request.method=='POST':
@@ -45,12 +41,10 @@ def add_user(request):
     else:
         return HttpResponse("404-not found page")
 
-    
 def show(request):
         users=User.objects.values('id','username','email')
         return render(request,'post/show.html',{'users':users})
     
-
 def compose(request):
     return render(request,'post/compose.html')
 
@@ -72,13 +66,11 @@ def post_delete(request,id):
     user_delete.delete()
     return redirect('/post')
 
-
 def pass_comment(request,id):
     if request.method=='POST':
         return redirect('/pass_comment')
     else:
         return render(request,'post/pass_comment.html',{'post_id':id})
-
 
 def given_comment(request,id):
     if request.method=='POST':
@@ -93,7 +85,6 @@ def given_comment(request,id):
     else:
         return render(request,'post/post.html')
 
-        
 def likes(request,id):
     user_id=request.user.id
     print(user_id)
