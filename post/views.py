@@ -5,8 +5,8 @@ from django.http import HttpResponse
 from django.shortcuts import redirect, render,HttpResponse
 from django.contrib.auth.models import User
 
-from django.db.models import Count
-from .models import Post ,Comments, Like
+
+from .models import Post ,Comments, Like , Dislike
 from django.contrib import auth
 
 # Create your views here.
@@ -18,7 +18,7 @@ def authenticate_user(request):
         user=auth.authenticate(request,username=username,password=pass1)
         if user is not None:
             auth.login(request,user)
-            return redirect('/show')
+            return redirect('/post')
         else:
             return HttpResponse("your password is incorrect")  
     else:
@@ -56,9 +56,9 @@ def post(request):
         data_store.save()
         return redirect('/post')
     else:
-        all_posts=Post.objects.values('id','user__username','last_update','description').order_by('-id')
+        all_posts=Post.objects.values('id','user__username','last_update','description','user_id').order_by('-id')
+        print(all_posts)
         comments=Comments.objects.values('id','post_id','comment','user__username')
-        print(comments)
         return render(request,"post/post.html",{'all_posts':all_posts,'comments':comments})
    
 def post_delete(request,id):
@@ -86,15 +86,27 @@ def given_comment(request,id):
         return render(request,'post/post.html')
 
 def likes(request,id):
-    user_id=request.user.id
-    print(user_id)
-    data_store=Like(user_id=user_id,post_id=id)
-    data_store.save()
-    return redirect('/post')
+    if request.method=='POST':
+        user_id=request.user.id
+        print(user_id)
 
- 
+        data_store=Like(user_id=user_id,post_id=id)
+        data_store.save()
+        return redirect('/post')
+    else:
+        likes=Like.objects.values('user__id')
+        return redirect(request,'post/post.html',{'likes':likes})
 
+def dislike(request,id):
+    if request.method=='POST':
+        user_id=request.user.id
+        print(user_id)
+        data_store=Dislike(user_id=user_id,post_id=id)
+        data_store.save()
+        return redirect('/post')
+    else:
+        return redirect(request,'post/post.html')
 
-
-
-
+    
+def add_post(request):
+    return redirect('/show')

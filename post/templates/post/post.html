@@ -18,7 +18,8 @@
         
             
 
-            <h3>These are the User posts</h3> <hr> <hr>
+            <h3>These are the User posts</h3><h3><a href="/add_post">Add Post</a></h3>
+            <hr> <hr>
             <div class="container">
         
 
@@ -28,15 +29,17 @@
             <td name="user_post.last_update">{{user_post.last_update}}<br></td>
             <td>{{user_post.description}}<br></td>
             
-            {% if user.is_authenticated %}
+            {% if request.user.id == user_post.user_id %}
+
+           
 
             <div style="text-align:right;">
                 <a href="/delete/{{user_post.id}}" >delete</a>
             </div>
 
-            <!-- <input type="submit" name="submit" value="comment" class="btn btn-primary">
-             -->
-
+            {% endif %}
+            
+        
              <a href="/pass_comment/{{user_post.id}}">comment</a>
              
              
@@ -45,8 +48,14 @@
 
             
             <a href="/likes/{{user_post.id}}">Like</a>
+
+             {% for like in likes %}
+             {{like.user__id}}
+             {% endfor %}
+
+            <a href="/dislike/{{user_post.id}}">Dislike</a>
             <br>
-            {% endif %}
+            
             
              {% for comment in comments %}
 

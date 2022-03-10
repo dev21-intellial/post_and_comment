@@ -24,6 +24,13 @@ class Like(models.Model):
     post=models.ForeignKey(Post,on_delete=models.CASCADE)
 
 
+class Dislike(models.Model):
+    user=models.ForeignKey(User,on_delete=models.CASCADE)
+    post=models.ForeignKey(Post,on_delete=models.CASCADE)
+
+
+
+
 
 
 
