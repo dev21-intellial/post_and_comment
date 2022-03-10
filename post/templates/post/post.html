@@ -49,12 +49,22 @@
             
             <a href="/likes/{{user_post.id}}">Like</a>
 
-             {% for like in likes %}
-             {{like.user__id}}
-             {% endfor %}
+            
 
+            {% for like in likes %}
+                {% if user_post.id == like.post_id %}
+                    ({{like.user_id}})
+                {% endif%}
+             {% endfor %}
+            
             <a href="/dislike/{{user_post.id}}">Dislike</a>
             <br>
+            
+            {% for dislike in dislikes %}
+                {% if user_post.id == dislike.post_id %}
+                    ({{dislike.user_id}})
+                {% endif%}
+             {% endfor %}
             
             
              {% for comment in comments %}

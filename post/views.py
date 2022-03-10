@@ -45,6 +45,10 @@ def show(request):
         users=User.objects.values('id','username','email')
         return render(request,'post/show.html',{'users':users})
     
+ 
+def add_post(request):
+    return redirect('/show')
+
 def compose(request):
     return render(request,'post/compose.html')
 
@@ -57,9 +61,11 @@ def post(request):
         return redirect('/post')
     else:
         all_posts=Post.objects.values('id','user__username','last_update','description','user_id').order_by('-id')
-        print(all_posts)
         comments=Comments.objects.values('id','post_id','comment','user__username')
-        return render(request,"post/post.html",{'all_posts':all_posts,'comments':comments})
+        likes=Like.objects.values('post_id','user_id')
+        dislikes=Dislike.objects.values('post_id','user_id')
+        print(dislikes)
+        return render(request,"post/post.html",{'all_posts':all_posts,'comments':comments,'likes':likes,'dislikes':dislikes})
    
 def post_delete(request,id):
     user_delete=Post.objects.filter(id=id)
@@ -86,27 +92,22 @@ def given_comment(request,id):
         return render(request,'post/post.html')
 
 def likes(request,id):
-    if request.method=='POST':
         user_id=request.user.id
         print(user_id)
 
         data_store=Like(user_id=user_id,post_id=id)
+        print(data_store)
         data_store.save()
         return redirect('/post')
-    else:
-        likes=Like.objects.values('user__id')
-        return redirect(request,'post/post.html',{'likes':likes})
+    
 
 def dislike(request,id):
-    if request.method=='POST':
         user_id=request.user.id
         print(user_id)
         data_store=Dislike(user_id=user_id,post_id=id)
         data_store.save()
         return redirect('/post')
-    else:
-        return redirect(request,'post/post.html')
 
-    
-def add_post(request):
-    return redirect('/show')
+def index(View):
+    c = Like.objects.filter().count()
+    print (c)
