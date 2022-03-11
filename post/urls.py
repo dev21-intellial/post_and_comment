@@ -15,6 +15,7 @@ urlpatterns = [
    path('given_comment/<int:id>',views.given_comment,name='to_save_comment'),
    path('likes/<int:id>',views.likes,name='likes'),
    path('dislike/<int:id>',views.dislike,name='dislike'),
-   path('add_post',views.add_post,name="add_post")
+   path('add_post',views.add_post,name="add_post"),
+   path('delete_comment/<int:id>',views.delete_comment,name='delete_comment')
 ]
 

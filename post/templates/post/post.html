@@ -78,6 +78,13 @@
              <b>{{comment.user__username}}</b>
              
              {{comment.comment}}
+
+             {% if request.user.id == comment.user_id %}
+
+             <a href="/delete_comment/{{comment.id}}">Delete</a>
+
+             {% endif %}
+
              <br>
              {% endif%}
             
