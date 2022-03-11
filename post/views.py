@@ -4,6 +4,7 @@ from xml.etree.ElementTree import Comment
 from django.http import HttpResponse
 from django.shortcuts import redirect, render,HttpResponse
 from django.contrib.auth.models import User
+from django.db.models import Count
 
 
 from .models import Post ,Comments, Like , Dislike
@@ -62,10 +63,13 @@ def post(request):
     else:
         all_posts=Post.objects.values('id','user__username','last_update','description','user_id').order_by('-id')
         comments=Comments.objects.values('id','post_id','comment','user__username')
-        likes=Like.objects.values('post_id','user_id')
-        dislikes=Dislike.objects.values('post_id','user_id')
-        print(dislikes)
-        return render(request,"post/post.html",{'all_posts':all_posts,'comments':comments,'likes':likes,'dislikes':dislikes})
+        #likes=Like.objects.values('post_id','user_id')
+        likes_count = (Like.objects.values('post_id','user_id').annotate(likes=Count('user_id')))
+        #dislikes=Dislike.objects.values('user_id','post_id')
+        dislikes_count = (Dislike.objects.values('post_id','user_id').annotate(dislikes=Count('user_id')))
+
+        print(likes_count)
+        return render(request,"post/post.html",{'all_posts':all_posts,'comments':comments,'likes':likes,'dislikes_count':dislikes_count,'likes_count':likes_count})
    
 def post_delete(request,id):
     user_delete=Post.objects.filter(id=id)
