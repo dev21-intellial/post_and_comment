@@ -7,6 +7,7 @@ from django.contrib.auth.models import User
 from django.db.models import Count
 
 
+
 from .models import Post ,Comments, Like , Dislike
 from django.contrib import auth
 
@@ -46,7 +47,6 @@ def show(request):
         users=User.objects.values('id','username','email')
         return render(request,'post/show.html',{'users':users})
     
- 
 def add_post(request):
     return redirect('/show')
 
@@ -62,15 +62,16 @@ def post(request):
         return redirect('/post')
     else:
         all_posts=Post.objects.values('id','user__username','last_update','description','user_id').order_by('-id')
+        
         comments=Comments.objects.values('id','post_id','user_id','comment','user__username')
-        #likes=Like.objects.values('post_id','user_id')
-        likes_count = (Like.objects.values('post_id','user_id').annotate(likes=Count('user_id')))
-        #dislikes=Dislike.objects.values('user_id','post_id')
-        dislikes_count = (Dislike.objects.values('post_id','user_id').annotate(dislikes=Count('user_id')))
-
+        #likes_count = (Like.objects.values('id','post_id','user_id').annotate(likes=Count('user_id')))
+        likes_count = (Like.objects.values('post_id').annotate(likes=Count('post_id')))
         print(likes_count)
-        return render(request,"post/post.html",{'all_posts':all_posts,'comments':comments,'likes':likes,'dislikes_count':dislikes_count,'likes_count':likes_count})
-   
+        #dislikes=Dislike.objects.values('user_id','post_id')
+        dislikes_count = (Dislike.objects.values('post_id').annotate(dislikes=Count('post_id')))
+        print(dislikes_count,"dislikes_count")
+        return render(request,"post/post.html",{'all_posts':all_posts,'comments':comments,'likes_count':likes_count,'dislikes_count':dislikes_count})
+
 def post_delete(request,id):
     print(id)
     user_delete=Post.objects.filter(id=id)
@@ -97,25 +98,6 @@ def given_comment(request,id):
     else:
         return render(request,'post/post.html')
 
-def likes(request,id):
-        user_id=request.user.id
-        print(user_id)
-
-        data_store=Like(user_id=user_id,post_id=id)
-        print(data_store)
-        data_store.save()
-        return redirect('/post')
-   
-
-
-def dislike(request,id):
-        user_id=request.user.id
-        print(user_id)
-        data_store=Dislike(user_id=user_id,post_id=id)
-        data_store.save()
-        return redirect('/post')
-
-
 def delete_comment(request,id):
     print(id)
     comment_delete=Comments.objects.filter(id=id)
@@ -123,3 +105,30 @@ def delete_comment(request,id):
     comment_delete.delete()
     return redirect('/post')
     
+def likes(request,id):
+        user_id=request.user.id
+        print(user_id)
+        if Like.objects.filter(user_id=user_id,post_id=id):
+            delete_like=Like.objects.filter(user_id=user_id,post_id=id)
+            delete_like.delete()
+            return redirect('/post')
+        else:
+            data_store=Like(user_id=user_id,post_id=id)
+            data_store.save()
+            return redirect('/post')
+
+def dislike(request,id):
+    users_id=request.user.id
+    print(users_id)
+    if Dislike.objects.filter(user_id=users_id,post_id=id): 
+        delete_dislike=Dislike.objects.filter(user_id=users_id,post_id=id)
+        delete_dislike.delete()
+        return redirect('/post')
+    else:
+        print(2)
+        print(users_id)
+        data_store=Dislike(user_id=users_id,post_id=id)
+        data_store.save()
+        return redirect('/post')
+   
+
