@@ -16,8 +16,8 @@ from django.contrib import auth
 def authenticate_user(request):
     if request.method=='POST':
         username=request.POST['fname']
-        pass1=request.POST['pass1']
-        user=auth.authenticate(request,username=username,password=pass1)
+        password=request.POST['password']
+        user=auth.authenticate(request,username=username,password=password)
         if user is not None:
             auth.login(request,user)
             return redirect('/post')
@@ -36,8 +36,8 @@ def add_user(request):
     if request.method=='POST':
         username=request.POST['fname']
         email=request.POST['email']
-        pass1=request.POST['pass1']
-        myuser=User.objects.create_user(username,email,pass1)
+        password=request.POST['password']
+        myuser=User.objects.create_user(username,email,password)
         myuser.save()
         return redirect('/')
     else:
@@ -56,7 +56,7 @@ def compose(request):
 def post(request):    
     if request.method=="POST":
         user_id=request.user.id
-        description=request.POST['txtArea']
+        description=request.POST['description']
         data_store=Post(user_id=user_id,description=description)
         data_store.save()
         return redirect('/post')
@@ -89,7 +89,7 @@ def given_comment(request,id):
     if request.method=='POST':
         post_id=request.POST.get('post_id')
         print(post_id)
-        comment_given=request.POST['comment_txtArea']
+        comment_given=request.POST['comment']
         print(comment_given)
        
         data_store=Comments(post_id=post_id,comment=comment_given,user_id=request.user.id)
